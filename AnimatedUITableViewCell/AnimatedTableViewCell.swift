@@ -79,16 +79,30 @@ final class AnimatedTableViewCell: UITableViewCell {
         let prepare = {
             print("Preparing append")
 //            self.titlesStackViewBottomToFooterViewConstraint.isActive = false
-            self.titlesStackViewBottomConstraint.isActive = false
+            if self.footerView.isHidden {
+                self.titlesStackViewBottomConstraint.isActive = false
+            } else {
+                self.titlesStackViewBottomToFooterViewConstraint.isActive = false
+                self.titlesStackViewBottomConstraint.isActive = true
+                self.titlesStackViewBottomConstraint.constant = -label.frame.height
+            }
             self.titlesStackView.addArrangedSubview(label)
             self.titlesStackView.layoutIfNeeded()
         }
         let perform = {
             print("Performing append")
-
+            if self.footerView.isHidden {
+            } else {
+                self.titlesStackViewBottomConstraint.constant = self.footerView.frame.height
+            }
 //            self.titlesStackViewBottomConstraint.isActive = true
         }
         let finalise = {
+            self.titlesStackViewBottomConstraint.isActive = false
+            if self.footerView.isHidden {
+            } else {
+                self.titlesStackViewBottomToFooterViewConstraint.isActive = true
+            }
 //            self.titlesStackViewBottomToFooterViewConstraint.isActive = true
             print("Finalising append")
         }
