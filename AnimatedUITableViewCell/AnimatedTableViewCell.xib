@@ -43,7 +43,7 @@
                             <constraint firstAttribute="trailing" secondItem="GAc-Qz-Q5W" secondAttribute="trailing" id="Ckl-3i-raH"/>
                             <constraint firstItem="GAc-Qz-Q5W" firstAttribute="leading" secondItem="Nis-9R-Xk3" secondAttribute="leading" id="H9F-JU-xIC"/>
                             <constraint firstAttribute="bottom" secondItem="GAc-Qz-Q5W" secondAttribute="bottom" priority="999" id="LRP-g1-HFq"/>
-                            <constraint firstAttribute="bottom" secondItem="oZI-RJ-V7b" secondAttribute="bottom" priority="250" id="RSY-1T-K5G"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="oZI-RJ-V7b" secondAttribute="bottom" priority="250" id="RSY-1T-K5G"/>
                             <constraint firstItem="GAc-Qz-Q5W" firstAttribute="top" secondItem="oZI-RJ-V7b" secondAttribute="bottom" id="RfI-aN-cFX"/>
                             <constraint firstItem="2OU-X7-M9w" firstAttribute="leading" secondItem="Nis-9R-Xk3" secondAttribute="leading" id="b6t-hr-ASU"/>
                             <constraint firstAttribute="bottom" secondItem="oZI-RJ-V7b" secondAttribute="bottom" id="dYW-3g-WlM"/>

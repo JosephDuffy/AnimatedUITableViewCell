@@ -82,31 +82,20 @@ final class AnimatedTableViewCell: UITableViewCell {
     }
 
     private func makeAppendLabelAnimation_showingFooter(label: UILabel) -> Animation {
-        // A tempory constraint used to ensure the footer is shown over the new label
-        let bottomConstraint: NSLayoutConstraint = {
-            return titlesStackView.superview!.heightAnchor.constraint(equalToConstant: titlesStackView.superview!.frame.height)
-        }()
-
         let prepare = {
             print("Preparing append")
             self.titlesStackViewBottomToFooterViewConstraint.isActive = false
-            self.titlesStackViewBottomConstraint.isActive = false
-            bottomConstraint.isActive = true
-            self.addConstraint(bottomConstraint)
+            self.titlesStackViewBottomConstraint.constant = self.footerView.frame.height
             self.titlesStackView.addArrangedSubview(label)
         }
         let perform = {
             print("Performing append")
-            // TODO: Account for spacing etc. by calculating real difference
-            bottomConstraint.constant += label.frame.height
             self.contentView.layoutIfNeeded()
         }
         let finalise = {
             print("Finalising append")
             self.titlesStackViewBottomToFooterViewConstraint.isActive = true
-            self.titlesStackViewBottomConstraint.isActive = true
-            bottomConstraint.isActive = false
-            self.removeConstraint(bottomConstraint)
+            self.titlesStackViewBottomConstraint.constant = 0
         }
         return Animation(prepare: prepare, perform: perform, finalise: finalise)
     }
