@@ -76,37 +76,54 @@ final class AnimatedTableViewCell: UITableViewCell {
     }
 
     func makeAppendLabelAnimation(label: UILabel) -> Animation {
+        return footerView.isHidden
+            ? makeAppendLabelAnimation_hiddenFooter(label: label)
+            : makeAppendLabelAnimation_showingFooter(label: label)
+    }
+
+    private func makeAppendLabelAnimation_showingFooter(label: UILabel) -> Animation {
+        // A tempory constraint used to ensure the footer is shown over the new label
+        let bottomConstraint: NSLayoutConstraint = {
+            return titlesStackView.superview!.heightAnchor.constraint(equalToConstant: titlesStackView.superview!.frame.height)
+        }()
+
         let prepare = {
             print("Preparing append")
-//            self.titlesStackViewBottomToFooterViewConstraint.isActive = false
-            if self.footerView.isHidden {
-                self.titlesStackViewBottomConstraint.isActive = false
-            } else {
-                self.titlesStackViewBottomToFooterViewConstraint.isActive = false
-                self.titlesStackViewBottomConstraint.isActive = true
-                self.titlesStackViewBottomConstraint.constant = -label.frame.height
-            }
+            self.titlesStackViewBottomToFooterViewConstraint.isActive = false
+            self.titlesStackViewBottomConstraint.isActive = false
+            bottomConstraint.isActive = true
+            self.addConstraint(bottomConstraint)
             self.titlesStackView.addArrangedSubview(label)
-            self.titlesStackView.layoutIfNeeded()
         }
         let perform = {
             print("Performing append")
-            if self.footerView.isHidden {
-            } else {
-                self.titlesStackViewBottomConstraint.constant = self.footerView.frame.height
-            }
-//            self.titlesStackViewBottomConstraint.isActive = true
+            // TODO: Account for spacing etc. by calculating real difference
+            bottomConstraint.constant += label.frame.height
+            self.contentView.layoutIfNeeded()
         }
         let finalise = {
-            self.titlesStackViewBottomConstraint.isActive = false
-            if self.footerView.isHidden {
-            } else {
-                self.titlesStackViewBottomToFooterViewConstraint.isActive = true
-            }
-//            self.titlesStackViewBottomToFooterViewConstraint.isActive = true
+            print("Finalising append")
+            self.titlesStackViewBottomToFooterViewConstraint.isActive = true
+            self.titlesStackViewBottomConstraint.isActive = true
+            bottomConstraint.isActive = false
+            self.removeConstraint(bottomConstraint)
+        }
+        return Animation(prepare: prepare, perform: perform, finalise: finalise)
+    }
+
+    private func makeAppendLabelAnimation_hiddenFooter(label: UILabel) -> Animation {
+        let prepare = {
+            print("Preparing append")
+            self.titlesStackView.addArrangedSubview(label)
+        }
+        let perform = {
+            print("Performing append")
+        }
+        let finalise = {
             print("Finalising append")
         }
         return Animation(prepare: prepare, perform: perform, finalise: finalise)
+
     }
 
     func setFooterHidden(_ isHidden: Bool) {

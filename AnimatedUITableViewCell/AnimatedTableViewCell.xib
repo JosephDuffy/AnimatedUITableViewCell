@@ -71,7 +71,7 @@
                 <outlet property="footerView" destination="GAc-Qz-Q5W" id="Rs4-YL-CgL"/>
                 <outlet property="footerViewBottomConstraint" destination="LRP-g1-HFq" id="7lu-Oo-Eym"/>
                 <outlet property="titlesStackView" destination="oZI-RJ-V7b" id="K7M-Jp-KsM"/>
-                <outlet property="titlesStackViewBottomConstraint" destination="dYW-3g-WlM" id="PWS-DP-2LT"/>
+                <outlet property="titlesStackViewBottomConstraint" destination="RSY-1T-K5G" id="1EQ-cs-UKC"/>
                 <outlet property="titlesStackViewBottomToFooterViewConstraint" destination="RfI-aN-cFX" id="cP8-lj-hU6"/>
             </connections>
             <point key="canvasLocation" x="265.94202898550725" y="269.53125"/>
