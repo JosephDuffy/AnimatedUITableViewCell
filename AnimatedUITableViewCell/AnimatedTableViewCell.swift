@@ -45,12 +45,15 @@ final class AnimatedTableViewCell: UITableViewCell {
     }
 
     func makeFooterHideAnimation() -> Animation {
-        let prepare = {}
+        let prepare = {
+            print("Preparing hide")
+        }
         let perform = {
+            print("Performing hide")
             self.footerViewBottomConstraint.isActive = false
-            self.titlesStackViewBottomConstraint.isActive = true
         }
         let finalise = {
+            print("Finalising hide")
             self.footerView.isHidden = true
         }
         return Animation(prepare: prepare, perform: perform, finalise: finalise)
@@ -58,14 +61,36 @@ final class AnimatedTableViewCell: UITableViewCell {
 
     func makeFooterShowAnimation() -> Animation {
         let prepare = {
+            print("Preparing show")
             self.footerView.isHidden = false
-            self.titlesStackViewBottomToFooterViewConstraint.isActive = false
+            self.footerViewBottomConstraint.isActive = false
         }
         let perform = {
-            self.footerViewBottomConstraint.isActive = false
+            print("Performing show")
+            self.footerViewBottomConstraint.isActive = true
+        }
+        let finalise = {
+            print("Finalising show")
+        }
+        return Animation(prepare: prepare, perform: perform, finalise: finalise)
+    }
+
+    func makeAppendLabelAnimation(label: UILabel) -> Animation {
+        let prepare = {
+            print("Preparing append")
+            self.titlesStackViewBottomToFooterViewConstraint.isActive = false
+//            self.titlesStackViewBottomConstraint.isActive = false
+            self.titlesStackView.addArrangedSubview(label)
+            self.titlesStackView.layoutIfNeeded()
+        }
+        let perform = {
+            print("Performing append")
+
             self.titlesStackViewBottomConstraint.isActive = true
         }
         let finalise = {
+//            self.titlesStackViewBottomToFooterViewConstraint.isActive = true
+            print("Finalising append")
         }
         return Animation(prepare: prepare, perform: perform, finalise: finalise)
     }
@@ -87,6 +112,7 @@ final class AnimatedTableViewCell: UITableViewCell {
     func appendTitle(_ title: String) {
         let label = UILabel(frame: .zero)
         label.text = title
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
         titlesStackView.addArrangedSubview(label)
     }
 
