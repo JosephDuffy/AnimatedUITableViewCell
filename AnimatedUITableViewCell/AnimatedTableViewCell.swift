@@ -78,15 +78,15 @@ final class AnimatedTableViewCell: UITableViewCell {
     func makeAppendLabelAnimation(label: UILabel) -> Animation {
         let prepare = {
             print("Preparing append")
-            self.titlesStackViewBottomToFooterViewConstraint.isActive = false
-//            self.titlesStackViewBottomConstraint.isActive = false
+//            self.titlesStackViewBottomToFooterViewConstraint.isActive = false
+            self.titlesStackViewBottomConstraint.isActive = false
             self.titlesStackView.addArrangedSubview(label)
             self.titlesStackView.layoutIfNeeded()
         }
         let perform = {
             print("Performing append")
 
-            self.titlesStackViewBottomConstraint.isActive = true
+//            self.titlesStackViewBottomConstraint.isActive = true
         }
         let finalise = {
 //            self.titlesStackViewBottomToFooterViewConstraint.isActive = true

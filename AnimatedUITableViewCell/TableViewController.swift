@@ -67,18 +67,15 @@ final class TableViewController: UITableViewController {
         guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? AnimatedTableViewCell else { return }
         let label = UILabel(frame: .zero)
         label.text = title
-        cell.titlesStackView.addArrangedSubview(label)
-        cell.titlesStackView.layoutIfNeeded()
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
 
-//        guard let label = cell.titlesStackView.arrangedSubviews.last else { return }
-//        label.isHidden = true
-//        label.alpha = 0
+        let animation = cell.makeAppendLabelAnimation(label: label)
+        animation.prepare()
+
         tableView.performBatchUpdates({
-//            tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-//            label.isHidden = false
-//            label.alpha = 1
+            animation.perform()
         }, completion: { isFinished in
-            print("Animated finished", isFinished)
+            animation.finalise()
         })
 
     }
