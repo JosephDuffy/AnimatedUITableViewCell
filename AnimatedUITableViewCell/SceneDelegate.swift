@@ -1,17 +1,9 @@
-//
-//  SceneDelegate.swift
-//  AnimatedUITableViewCell
-//
-//  Created by Joseph Duffy on 11/06/2020.
-//  Copyright © 2020 Joseph Duffy. All rights reserved.
-//
-
 import UIKit
 
+@available(iOS 13.0, *)
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -48,6 +40,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 
-
 }
-
