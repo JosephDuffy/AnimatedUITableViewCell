@@ -44,18 +44,15 @@ final class TableViewController: UITableViewController {
     @IBAction
     private func handleRemoveButtonTapped() {
         guard let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? AnimatedTableViewCell else { return }
+        guard let animation = cell.makeRemoveLabelAnimation() else { return }
+
+        titles.removeLast()
+        animation.prepare()
 
         tableView.performBatchUpdates({
-            titles.removeLast()
-
-            guard let label = cell.titlesStackView.arrangedSubviews.last else { return }
-            // Hiding the label can't be animated here, so manually changing the frame is
-            // used to cover the label, which will then be removed in the completion
-//            label.alpha = 0
-            cell.titlesStackView.frame.size.height -= label.frame.height
+            animation.perform()
         }, completion: { isFinished in
-            print("Animated finished", isFinished)
-            cell.removeLastTitle()
+            animation.finalise()
         })
     }
 
@@ -77,7 +74,6 @@ final class TableViewController: UITableViewController {
         }, completion: { isFinished in
             animation.finalise()
         })
-
     }
 
 }

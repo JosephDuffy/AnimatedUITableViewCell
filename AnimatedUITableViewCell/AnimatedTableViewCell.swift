@@ -112,7 +112,51 @@ final class AnimatedTableViewCell: UITableViewCell {
             print("Finalising append")
         }
         return Animation(prepare: prepare, perform: perform, finalise: finalise)
+    }
 
+    func makeRemoveLabelAnimation() -> Animation? {
+        guard let label = titlesStackView.arrangedSubviews.last else { return nil}
+
+        return footerView.isHidden
+            ? makeRemoveLabelAnimation_hiddenFooter(label: label)
+            : makeRemoveLabelAnimation_showingFooter(label: label)
+    }
+
+    private func makeRemoveLabelAnimation_showingFooter(label: UIView) -> Animation {
+        let prepare = {
+            print("Preparing remove")
+            self.titlesStackViewBottomToFooterViewConstraint.isActive = false
+            self.titlesStackViewBottomConstraint.constant = self.footerView.frame.height - label.frame.height
+        }
+        let perform = {
+            print("Performing remove")
+            self.contentView.layoutIfNeeded()
+        }
+        let finalise = {
+            print("Finalising remove")
+            self.titlesStackView.removeArrangedSubview(label)
+            label.removeFromSuperview()
+            self.titlesStackViewBottomToFooterViewConstraint.isActive = true
+            self.titlesStackViewBottomConstraint.constant = 0
+        }
+        return Animation(prepare: prepare, perform: perform, finalise: finalise)
+    }
+
+    private func makeRemoveLabelAnimation_hiddenFooter(label: UIView) -> Animation {
+        let prepare = {
+            print("Preparing remove")
+            self.titlesStackViewBottomConstraint.constant = -label.frame.height
+        }
+        let perform = {
+            print("Performing remove")
+        }
+        let finalise = {
+            print("Finalising remove")
+            self.titlesStackView.removeArrangedSubview(label)
+            label.removeFromSuperview()
+            self.titlesStackViewBottomConstraint.constant = 0
+        }
+        return Animation(prepare: prepare, perform: perform, finalise: finalise)
     }
 
     func setFooterHidden(_ isHidden: Bool) {
